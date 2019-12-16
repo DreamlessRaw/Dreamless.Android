@@ -98,6 +98,11 @@ public final class CaptureActivity extends Activity implements
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initNfc();
     }
 

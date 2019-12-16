@@ -1,5 +1,6 @@
 package com.example.dreamless
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import com.example.dreamless.models.User
 import com.example.dreamless.models.UserViewModel
 import com.example.dreamless.tools.ToastUtils
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlin.reflect.typeOf
 
 class MainActivity : ScanActivity() {
 
@@ -44,15 +46,7 @@ class MainActivity : ScanActivity() {
                 }
             }).attach()
 
-        scan { code ->
-            kotlin.run {
-                if (code.isNullOrEmpty()) {
-                    ToastUtils.long("未识别有效信息")
-                } else {
-                    ToastUtils.long("结果 $code")
-                }
-            }
-        }
+        startActivity(Intent(this, NfcActivity::class.java))
 
     }
 
