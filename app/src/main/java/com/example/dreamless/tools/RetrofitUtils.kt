@@ -62,14 +62,14 @@ interface RetrofitCallback<T> : Callback<ApiResult<T>> {
     }
 
     fun success(data: T) {
-        var msg = Message()
+        val msg = Message()
         msg.what = 1
         msg.obj = "操作成功"
         handler.sendMessage(msg)
     }
 
     fun failed(message: String) {
-        var msg = Message()
+        val msg = Message()
         msg.what = 1
         msg.obj = message
         handler.sendMessage(msg)

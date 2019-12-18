@@ -1,6 +1,7 @@
 package com.example.dreamless
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,13 +13,14 @@ import com.example.dreamless.zxing.android.CaptureActivity
 import com.example.dreamless.tools.ToastUtils
 
 
+@SuppressLint("Registered")
 open class ScanActivity : AppCompatActivity() {
 
     private lateinit var scanCallback: (code: String) -> Unit
 
     fun scan(callback: (code: String) -> Unit) {
         this.scanCallback = callback
-        init();
+        init()
     }
 
 
@@ -61,7 +63,7 @@ open class ScanActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RequestCodeGather.REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK) {
-            var code = data?.getStringExtra(RequestCodeGather.DECODED_CONTENT)
+            val code = data?.getStringExtra(RequestCodeGather.DECODED_CONTENT)
             if (code.isNullOrEmpty()) {
                 this.scanCallback.invoke("")
             } else {

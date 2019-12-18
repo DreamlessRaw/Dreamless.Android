@@ -18,8 +18,8 @@ import java.lang.Exception
 
 class NfcActivity : AppCompatActivity() {
 
-    private lateinit var nfcAdapter: NfcAdapter
-    private lateinit var pendingIntent: PendingIntent
+    private var nfcAdapter: NfcAdapter? = null
+    private var pendingIntent: PendingIntent? = null
     private var isRead: Boolean = true
     private val mineType = "application/fisnfc"
 
@@ -30,9 +30,9 @@ class NfcActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nfc)
-        editText = findViewById<EditText>(R.id.et_text);
-        readButton = findViewById<Button>(R.id.btn_read)
-        writerButton = findViewById<Button>(R.id.btn_writer)
+        editText = findViewById(R.id.et_text)
+        readButton = findViewById(R.id.btn_read)
+        writerButton = findViewById(R.id.btn_writer)
 
         readButton.setOnClickListener { isRead = true }
         writerButton.setOnClickListener { isRead = false }
@@ -54,7 +54,7 @@ class NfcActivity : AppCompatActivity() {
 
     private fun writerNfc(intent: Intent) {
         isRead = false
-        val tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG) as Tag;
+        val tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG) as Tag
         //DisplayMessage(_intentMsg);
         val mimeRecord = NdefRecord(
             NdefRecord.TNF_MIME_MEDIA,
@@ -65,7 +65,7 @@ class NfcActivity : AppCompatActivity() {
 
         val aar = NdefRecord.createApplicationRecord("dreamless.android")
         val ndefMessage = NdefMessage(mimeRecord, aar)
-        val ndef = Ndef.get(tag);
+        val ndef = Ndef.get(tag)
         ndef.connect()
         if (!ndef.isWritable) {
             ToastUtils.long("标签是只读的")
@@ -88,21 +88,26 @@ class NfcActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        nfcAdapter.disableForegroundDispatch(this)
+        nfcAdapter?.disableForegroundDispatch(this)
     }
 
     override fun onResume() {
         super.onResume()
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null)
+        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, null, null)
     }
 
 
     private fun initNfc() {
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-        if (!nfcAdapter.isEnabled) return
-        val intent = Intent(this, this.javaClass)
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        if (nfcAdapter == null) {
+            ToastUtils.long("设备不支持NFC功能")
+            return
+        } else {
+            if (!nfcAdapter!!.isEnabled) return
+            val intent = Intent(this, this.javaClass)
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+        }
     }
 
 

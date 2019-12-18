@@ -7,13 +7,14 @@ class AndroidApplication : Application() {
 
     companion object {
         private lateinit var context: Context
-        fun getContext(): Context {
-            return this.context
-        }
+        private lateinit var instance: Application
+        fun getContext(): Context = this.context
+        fun getInstance(): Application = this.instance
     }
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         context = this.applicationContext
     }
 

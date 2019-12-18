@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface ApiService {
 
     @GET("test")
-    fun getUser(): Call<ApiResult<User>>
+    fun getUser(): Call<ApiResult<List<User>>>
 }
