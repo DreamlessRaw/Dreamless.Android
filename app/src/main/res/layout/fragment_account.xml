@@ -7,9 +7,14 @@
             android:layout_height="match_parent"
             tools:context=".fragment.AccountFragment">
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rcv_account"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"/>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/srl_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/rcv_account"
+                                                       android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 </layout>

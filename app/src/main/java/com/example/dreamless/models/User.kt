@@ -2,7 +2,6 @@ package com.example.dreamless.models
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.dreamless.adapter.AccountAdapter
 import com.example.dreamless.tools.RetrofitCallback
 import com.example.dreamless.tools.RetrofitUtils
 
@@ -19,7 +18,11 @@ open class UserViewModel : ViewModel() {
             }
 
             override fun failed(message: String) {
-                userEvent.value = listOf(User("2", "二号"), User("3", "三号"))
+                var data1= arrayListOf<User>()
+                for (i in 1..30) {
+                    data1.add(User(i.toString(), "$i 号"))
+                }
+                userEvent.value = data1
             }
         })
     }
